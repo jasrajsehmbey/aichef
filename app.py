@@ -5,7 +5,7 @@ import re
 
 
 # store recipe in generated 
-def gen(flav):
+def gen(flav,path):
     # Read the content of "afterdetect/currentfolder.txt"
     with open("afterdetect/currentfolder.txt", 'r') as f:
         data = f.read()
@@ -29,8 +29,8 @@ def gen(flav):
     with open("currentfolder.txt", 'r') as f:
         prefix = f.read()
 
-    img_path = ""
-    img_path +=data+ "/test"+ str(numplusone-1)+".jpg" # Replace with the actual path or provide the path dynamically
+    img_path = path
+    # img_path +=data+ "/test"+ str(numplusone-1)+".jpg" # Replace with the actual path or provide the path dynamically
     img = img_path.split("/")[-1]
 
     # Create the destination path for the txtfile
@@ -100,7 +100,7 @@ def output():
     detection_command = "python yolov5/detect.py --weights best.pt --img 1280 --conf 0.25 --source "+ image_path
     subprocess.run(detection_command, shell=True)
     
-    generated  = gen(flav)
+    generated  = gen(flav,image_path)
     return render_template('index.html', recipe = generated)
 
 
