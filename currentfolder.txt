@@ -1,1 +1,1 @@
-yolov5/runs/detect/exp23
+yolov5/runs/detect/exp25

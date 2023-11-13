@@ -18,10 +18,25 @@
             <div class="mb-3 row">
                 <label for="flavour" class="col-sm-2 col-form-label">Flavour</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flavour" name="flavour">
+                    <select type="text" id="flavour" name="flavour" class="form-select">
+                        <option>Any</option>
+                        <option>Spicy</option>
+                        <option>Sweet</option>
+                        <option> Sour</option>
+                        <option>Bitter</option>
+                        <option> Salty</option>
+                        <option> Umami</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="cuisine" class="col-sm-2 col-form-label">Cuisine</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="cuisine" name="cuisine">
                 </div>
             </div>
             <input class="btn btn-primary mt-3" type="submit" value="Generate Recipe">
+
         </form>
         
 

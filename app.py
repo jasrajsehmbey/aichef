@@ -5,7 +5,7 @@ import re
 
 
 # store recipe in generated 
-def gen(flav,path):
+def gen(flav,cuisine,path):
     # Read the content of "afterdetect/currentfolder.txt"
     with open("currentfolder.txt", 'r') as f:
         data = f.read()
@@ -46,17 +46,18 @@ def gen(flav,path):
     co = cohere.Client('J4Syy5U88TUc8KxWiFsG8K3OQQqPRGOjQCWGIodj')
 
     # Prepare the prompt message
-    premessage = "You are an expert chef. I will give you a list of ingredients separated by a comma followed by the flavour of the dish, and you will give me a recipe using all or most of them but not supplementing outside of what might appear on this list. If an ingredient is shown as None, ignore it. If flavour is any then ignore it. Give each recipe a catchy title, an approximate time to complete and a count of people served. Also like any recipe, include the ingredient portions in the list labelled Ingredients: and then the Instructions section as a numbered list. Here's the ingredient list:"
+    premessage = "You are an expert chef. I will give you a list of ingredients separated by a comma followed by the flavour of the dish and after that cuisine, and you will give me a recipe using all or most of them but not supplementing outside of what might appear on this list. If an ingredient is shown as None, ignore it. If flavour is any then ignore it.If cuisine is any then ignore it. Give each recipe a catchy title, an approximate time to complete and a count of people served. Also like any recipe, include the ingredient portions in the list labelled Ingredients: and then the Instructions section as a numbered list. Here's the ingredient list:"
     postmessage = ""
     flavtext = ".Here's the flavour of the dish: "
+    cuisinetext = ".Here's the cuisine: "
     with open(destpath, 'r') as file:
         postmessage = file.read()
-
+    cuis = cuisine
     # Get the flavour variable from the form or wherever it comes from
     flavour = flav
 
     # Construct the message
-    message = f'{premessage}{postmessage}{flavtext}{flavour}'
+    message = f'{premessage}{postmessage}{flavtext}{flavour}{cuisinetext}{cuis}'
 
     # Generate response using cohere
     res = co.generate(prompt=message)
@@ -94,12 +95,12 @@ def output():
     # print(request.form['flavour']) #flavour 
 
     flav = request.form['flavour']
-
+    cuisine = request.form['cuisine']
     
     detection_command = "python yolov5/detect.py --weights best.pt --img 1280 --conf 0.25 --source "+ image_path
     subprocess.run(detection_command, shell=True)
     
-    generated  = gen(flav,image_path)
+    generated  = gen(flav,cuisine,image_path)
     return render_template('index.html', recipe = generated)
 
 
